@@ -8,6 +8,7 @@ describe('Thermostat', function() {
 
 
   describe('Temperature function', function() {
+
     it('has a default of 20degrees', function() {
       expect(thermostat.check()).toBe(20);
     });
@@ -23,12 +24,12 @@ describe('Thermostat', function() {
     });
 
     it('has a minimum temperature of 10 degress', function() {
-
       for(var times = 0; times < 12; times++){
           thermostat.down();
       }
       expect(thermostat.check()).toBe(10);
     });
+
   });
 
   describe('Power Saving Mode', function() {
@@ -64,6 +65,7 @@ describe('Thermostat', function() {
   });
 
   describe('Reset button', function() {
+
     it('resets to default temperature 20', function() {
       for(var times = 0; times < 15; times++) {
         thermostat.up();
@@ -71,15 +73,32 @@ describe('Thermostat', function() {
       thermostat.reset();
       expect(thermostat.check()).toBe(20);
     });
+
   });
 
   describe('Usage checker', function() {
+
     it('returns low-usage if below 18', function() {
       for(var times = 0; times < 3; times++) {
         thermostat.down();
       }
       expect(thermostat.usage()).toBe("low-usage");
     });
+
+    it('returns medium-usage if below 25', function() {
+      expect(thermostat.usage()).toBe("medium-usage");
+    });
+
+    it('returns high-usage if above 25', function() {
+      thermostat.togglePS();
+      for(var times = 0; times < 7; times++) {
+        thermostat.up();
+      }
+      console.log("should be: 27");
+      console.log(thermostat.check());
+      expect(thermostat.usage()).toBe("high-usage");
+    });
+
   });
 
 });
