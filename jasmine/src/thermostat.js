@@ -35,4 +35,12 @@ var Thermostat = function() {
       return this.powerSave = false
     }
   };
+
+  Thermostat.prototype.reset = function() {
+    this.temperature = 20
+  };
+
+  Thermostat.prototype.usage = function() {
+    return "low-usage"
+  };
 };

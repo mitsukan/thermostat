@@ -63,4 +63,23 @@ describe('Thermostat', function() {
 
   });
 
+  describe('Reset button', function() {
+    it('resets to default temperature 20', function() {
+      for(var times = 0; times < 15; times++) {
+        thermostat.up();
+      }
+      thermostat.reset();
+      expect(thermostat.check()).toBe(20);
+    });
+  });
+
+  describe('Usage checker', function() {
+    it('returns low-usage if below 18', function() {
+      for(var times = 0; times < 3; times++) {
+        thermostat.down();
+      }
+      expect(thermostat.usage()).toBe("low-usage");
+    });
+  });
+
 });

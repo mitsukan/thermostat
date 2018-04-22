@@ -11,3 +11,9 @@ The tests checks for the default value as well as the basic `thermostat.up` and 
 ### Power saving mode
 
 This adds more functionality to the thermostat. I have `this.powerSave` that keeps track of the `true` or `false` status. Using this, I have written tests to fulfil the requirements that the challenge has set out.
+
+### Reset, usage functions
+
+The reset function was really simple, changing `this.temperature` back to `20`.
+
+The usage checker is a bit more complicated. The tests would be looking for 3 outputs, in which the code will need an if statement to satisfy all 3.
