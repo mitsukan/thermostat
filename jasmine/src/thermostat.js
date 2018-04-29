@@ -33,7 +33,10 @@ Thermostat.prototype.checkPS = function() {
 
 Thermostat.prototype.togglePS = function() {
   if(this._powerSave == false) {
-    return this._powerSave = true
+    this._powerSave = true
+    if(this._temperature > 25) {
+      return this._temperature = 25
+    }
   }
   else if(this._powerSave == true) {
     return this._powerSave = false
@@ -55,3 +58,5 @@ Thermostat.prototype.usage = function() {
     return "high-usage"
   }
 };
+
+var thermostat = new Thermostat();

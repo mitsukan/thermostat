@@ -1,21 +1,86 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
 
-  <title>Thermostat</title>
-</head>
+    <title>Thermostat</title>
+  </head>
 
-<body>
+  <body>
+    <h1 id=temperature></h1>
+    <button id="temperature-up">+</button>
+    <button id="temperature-down">-</button>
+    <button id="toggle-powersave">powersavetoggle</button>
+    Power saving mode is: <span id="power-save-status"></span>
+    <button id="reset">reset</button>
 
-<button id="temperature-up">+</button>
-<button id="temperature-down">-</button>
-<button id="toggle-powersave">powersavetoggle</button>
-Power saving mode is: <span id="power-save-status">on</span>
-<button id="reset">reset</button>
+    <section>
+    <h1>Current temperature: <span id="temperatureAPI"></span> °C</h1>
+    Location:
+    <select id="locationAPI">
+      <option value="london">London</option>
+
+    </select>
+    </section>
+
+
+    <script src="../src/thermostat.js"></script>
+    <script src="../jquery.js"></script>
+
+    <script>
+    $(document).ready(function(){
+
+      updateTemperature();
+      $('#power-save-status').text('on');
+
+      $("#temperature-up").on("click", function() {
+        thermostat.up();
+        updateTemperature();
+      });
+
+      $("#temperature-down").on("click", function() {
+        thermostat.down();
+        updateTemperature();
+      });
+
+      $("#toggle-powersave").on("click", function() {
+        thermostat.togglePS();
+        if(thermostat._powerSave == true){
+          $('#power-save-status').text('on');
+        }
+        else {
+          $('#power-save-status').text('off');
+        }
+        updateTemperature();
+      });
+
+      $("#reset").on("click", function() {
+        thermostat.reset();
+        updateTemperature();
+      });
+
+      function updateTemperature() {
+        $('#temperature').text(thermostat._temperature);
+        if(thermostat.usage() === "low-usage") {
+          $('#temperature').css('color', 'green');
+        } else if(thermostat.usage() === "medium-usage") {
+          $('#temperature').css('color', 'orange');
+        } else if(thermostat.usage() === "high-usage") {
+          $('#temperature').css('color', 'red');
+        }
+      };
+
+      
+
+        $.get('http://api.openweathermap.org/data/2.5/weather?q=london,uk&appid=b0bd65ce52a561a2932b1512a37ebb87&units=metric', function(data) {
+          $('#temperatureAPI').text(data.main.temp);
+        });
 
 
 
-<script src="src/thermostat.js"></script>
-</body>
+
+
+    });
+    </script>
+  </body>
 
 </html>
