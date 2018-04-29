@@ -1,25 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
-
+    <link rel='stylesheet' href='stylesheet.css'>
     <title>Thermostat</title>
   </head>
 
-  <body>
+  <body class='main'>
+
     <h1 id=temperature></h1>
+
+
     <button id="temperature-up">+</button>
     <button id="temperature-down">-</button>
+
+    <p class='powersave'>
     <button id="toggle-powersave">powersavetoggle</button>
+
     Power saving mode is: <span id="power-save-status"></span>
+  </p>
     <button id="reset">reset</button>
 
     <section>
-    <h1>Current temperature: <span id="temperatureAPI"></span> °C</h1>
+    <h1>Current temperature: <span id="current-temp"></span> °C</h1>
     Location:
-    <select id="locationAPI">
-      <option value="london">London</option>
 
+    <select id="location-weather">
+      <option value="london">London</option>
+      <option value="paris">Paris</option>
+      <option value="amsterdam">Amsterdam</option>
     </select>
+
     </section>
 
 
@@ -27,6 +37,7 @@
     <script src="../jquery.js"></script>
 
     <script>
+    // Ensures that the document is primed before loading any JQuery
     $(document).ready(function(){
 
       updateTemperature();
@@ -69,14 +80,43 @@
         }
       };
 
-      
+      //Old weather API call.
+      //On change of the #location-weather, it will grab the input and stick it in
+      //the API, and then call on the API to get the temperature.
 
-        $.get('http://api.openweathermap.org/data/2.5/weather?q=london,uk&appid=b0bd65ce52a561a2932b1512a37ebb87&units=metric', function(data) {
-          $('#temperatureAPI').text(data.main.temp);
+      // $('#location-weather').change(function() {
+      //   var city = $('#location-weather').val();
+      //   console.log(city);
+      //   $.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=b0bd65ce52a561a2932b1512a37ebb87&units=metric', function(data) {
+      //     $('#current-temp').text(data.main.temp);
+      //   });
+      // });
+
+
+      // Refactored version, splitting the API into instance variables within a function.
+
+      function weatherAPI(){
+        var city = $('#location-weather').val();
+        var url = 'http://api.openweathermap.org/data/2.5/weather?q=' + city
+        var key = '&appid=b0bd65ce52a561a2932b1512a37ebb87'
+        var unit = '&units=metric'
+        console.log(url + key + unit);
+        $.get(url + key + unit, function(data) {
+          $('#current-temp').text(data.main.temp);
         });
+      };
 
 
+      // call on weatherAPI() in order to load the page with the temp
+      weatherAPI('london');
 
+
+      // Same as the old API call, but using the refactored weatherAPI() function.
+      $('#location-weather').change(function(event) {
+        event.preventDefault();
+        var city = $('#location-weather').val();
+        weatherAPI(city);
+      });
 
 
     });
