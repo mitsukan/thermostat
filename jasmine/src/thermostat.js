@@ -1,7 +1,3 @@
-// variable hoisting
-// prototype (y?)
-// debugger (y)
-
 function Thermostat() {
   this._temperature = 20
   this._powerSave = true
