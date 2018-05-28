@@ -1,5 +1,10 @@
 # Thermostat challenge
 
+## Install instructions
+
+Clone or fork this repo.
+`open ./jasmine/views/index.html` to open in the browser.
+
 ### Setting up the foundations
 
 I first started by creating the describe function in the spec file. From there, I also set up the `beforeEach` function that instantiates the instance variable `thermostat` to be used throughout the spec file.
